@@ -1,0 +1,6 @@
+{
+  "name": "Reporte de Turno - Control de Calidad",
+  "description": "Aplicación profesional para el control de novedades de turno, desviaciones, trazabilidad de lotes y estado de rociadoras, optimizada para Vercel y Supabase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
