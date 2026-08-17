@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plus, Trash2, Calendar, Users, ShieldAlert, Zap, Layers, Activity, CheckSquare, Sliders } from 'lucide-react';
+import { Plus, Trash2, Calendar, Users, ShieldAlert, Zap, Layers, Activity, CheckSquare, Sliders, Video, Lightbulb, Printer, Disc } from 'lucide-react';
 import { ReporteTurno, ProductoTurno } from '../types';
 import ExpandableCell from './ExpandableCell';
 import { CATALOGO_PRODUCTOS_PBO } from './TabPBO';
@@ -268,6 +268,175 @@ export default function TabGeneral({
               </label>
             </div>
           </div>
+
+          {/* Tensión de Fleje */}
+          <div className="flex flex-col gap-3 justify-center">
+            <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              <Disc className="w-3.5 h-3.5 text-amber-600" /> Tensión de Fleje
+            </span>
+            <div className="flex items-center gap-6">
+              <label className="inline-flex items-center gap-2.5 cursor-pointer text-sm font-medium text-slate-700 select-none">
+                <input
+                  type="checkbox"
+                  disabled={!editable}
+                  checked={cabecera.tension_fleje_cumple !== false} // default to true
+                  onChange={(e) => {
+                    onChangeCabecera({ tension_fleje_cumple: e.target.checked });
+                  }}
+                  className="w-4 h-4 rounded-sm border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 cursor-pointer"
+                />
+                <span className={cabecera.tension_fleje_cumple !== false ? "text-emerald-600 font-extrabold" : "text-red-500 font-extrabold"}>
+                  {cabecera.tension_fleje_cumple !== false ? "✅ Cumple" : "❌ No Cumple"}
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* Video Inspector */}
+          <div className="flex flex-col gap-3 justify-center">
+            <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              <Video className="w-3.5 h-3.5 text-cyan-600" /> Video Inspector
+            </span>
+            <div className="flex items-center gap-6">
+              <label className="inline-flex items-center gap-2.5 cursor-pointer text-sm font-medium text-slate-700 select-none">
+                <input
+                  type="checkbox"
+                  disabled={!editable}
+                  checked={cabecera.video_inspector_cumple !== false} // default to true
+                  onChange={(e) => {
+                    onChangeCabecera({ video_inspector_cumple: e.target.checked });
+                  }}
+                  className="w-4 h-4 rounded-sm border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 cursor-pointer"
+                />
+                <span className={cabecera.video_inspector_cumple !== false ? "text-emerald-600 font-extrabold" : "text-red-500 font-extrabold"}>
+                  {cabecera.video_inspector_cumple !== false ? "✅ Cumple" : "❌ No Cumple"}
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* Light Tester */}
+          <div className="flex flex-col gap-3 justify-center">
+            <span className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              <Lightbulb className="w-3.5 h-3.5 text-yellow-500" /> Light Tester
+            </span>
+            <div className="flex items-center gap-6">
+              <label className="inline-flex items-center gap-2.5 cursor-pointer text-sm font-medium text-slate-700 select-none">
+                <input
+                  type="checkbox"
+                  disabled={!editable}
+                  checked={cabecera.light_tester_cumple !== false} // default to true
+                  onChange={(e) => {
+                    onChangeCabecera({ light_tester_cumple: e.target.checked });
+                  }}
+                  className="w-4 h-4 rounded-sm border-slate-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50 cursor-pointer"
+                />
+                <span className={cabecera.light_tester_cumple !== false ? "text-emerald-600 font-extrabold" : "text-red-500 font-extrabold"}>
+                  {cabecera.light_tester_cumple !== false ? "✅ Cumple" : "❌ No Cumple"}
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Calificaciones de Printers */}
+        <div className="mt-6 pt-5 border-t border-slate-100">
+          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <Printer className="w-4 h-4 text-indigo-600" /> Calificación de Impresoras (Printers)
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Calificación Printer 11 */}
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+              <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Calificación Printer 11
+              </label>
+              <select
+                disabled={!editable}
+                value={cabecera.printer_11_calificacion || 'No Aplica'}
+                onChange={(e) => onChangeCabecera({ printer_11_calificacion: e.target.value as any })}
+                className={`w-full border rounded-lg p-2 text-xs font-bold transition-all outline-hidden ${
+                  (cabecera.printer_11_calificacion || 'No Aplica') === 'Cumple'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                    : (cabecera.printer_11_calificacion || 'No Aplica') === 'No Cumple'
+                    ? 'bg-red-50 text-red-700 border-red-300'
+                    : 'bg-white text-slate-600 border-slate-200'
+                }`}
+              >
+                <option value="No Aplica">⚪ No Aplica</option>
+                <option value="Cumple">✅ Cumple</option>
+                <option value="No Cumple">❌ No Cumple</option>
+              </select>
+            </div>
+
+            {/* Calificación Printer 12 */}
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+              <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Calificación Printer 12
+              </label>
+              <select
+                disabled={!editable}
+                value={cabecera.printer_12_calificacion || 'No Aplica'}
+                onChange={(e) => onChangeCabecera({ printer_12_calificacion: e.target.value as any })}
+                className={`w-full border rounded-lg p-2 text-xs font-bold transition-all outline-hidden ${
+                  (cabecera.printer_12_calificacion || 'No Aplica') === 'Cumple'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                    : (cabecera.printer_12_calificacion || 'No Aplica') === 'No Cumple'
+                    ? 'bg-red-50 text-red-700 border-red-300'
+                    : 'bg-white text-slate-600 border-slate-200'
+                }`}
+              >
+                <option value="No Aplica">⚪ No Aplica</option>
+                <option value="Cumple">✅ Cumple</option>
+                <option value="No Cumple">❌ No Cumple</option>
+              </select>
+            </div>
+
+            {/* Calificación Printer 31 */}
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+              <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Calificación Printer 31
+              </label>
+              <select
+                disabled={!editable}
+                value={cabecera.printer_31_calificacion || 'No Aplica'}
+                onChange={(e) => onChangeCabecera({ printer_31_calificacion: e.target.value as any })}
+                className={`w-full border rounded-lg p-2 text-xs font-bold transition-all outline-hidden ${
+                  (cabecera.printer_31_calificacion || 'No Aplica') === 'Cumple'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                    : (cabecera.printer_31_calificacion || 'No Aplica') === 'No Cumple'
+                    ? 'bg-red-50 text-red-700 border-red-300'
+                    : 'bg-white text-slate-600 border-slate-200'
+                }`}
+              >
+                <option value="No Aplica">⚪ No Aplica</option>
+                <option value="Cumple">✅ Cumple</option>
+                <option value="No Cumple">❌ No Cumple</option>
+              </select>
+            </div>
+
+            {/* Calificación Printer 32 */}
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+              <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-1.5">
+                Calificación Printer 32
+              </label>
+              <select
+                disabled={!editable}
+                value={cabecera.printer_32_calificacion || 'No Aplica'}
+                onChange={(e) => onChangeCabecera({ printer_32_calificacion: e.target.value as any })}
+                className={`w-full border rounded-lg p-2 text-xs font-bold transition-all outline-hidden ${
+                  (cabecera.printer_32_calificacion || 'No Aplica') === 'Cumple'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                    : (cabecera.printer_32_calificacion || 'No Aplica') === 'No Cumple'
+                    ? 'bg-red-50 text-red-700 border-red-300'
+                    : 'bg-white text-slate-600 border-slate-200'
+                }`}
+              >
+                <option value="No Aplica">⚪ No Aplica</option>
+                <option value="Cumple">✅ Cumple</option>
+                <option value="No Cumple">❌ No Cumple</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Condicional Observaciones No Cumple */}
@@ -324,6 +493,153 @@ export default function TabGeneral({
               placeholder="Detallar el motivo del no cumplimiento en PIE de Operaciones..."
               className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
                 !cabecera.observacion_pie_operaciones
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Tensión de Fleje (No Cumple) */}
+        {cabecera.tension_fleje_cumple === false && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Tensión de Fleje (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_tension_fleje || ''}
+              onChange={(e) => onChangeCabecera({ observacion_tension_fleje: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Tensión de Fleje..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_tension_fleje
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Video Inspector (No Cumple) */}
+        {cabecera.video_inspector_cumple === false && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Video Inspector (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_video_inspector || ''}
+              onChange={(e) => onChangeCabecera({ observacion_video_inspector: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Video Inspector..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_video_inspector
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Light Tester (No Cumple) */}
+        {cabecera.light_tester_cumple === false && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Light Tester (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_light_tester || ''}
+              onChange={(e) => onChangeCabecera({ observacion_light_tester: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Light Tester..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_light_tester
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Printer 11 (No Cumple) */}
+        {cabecera.printer_11_calificacion === 'No Cumple' && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Calificación Printer 11 (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_printer_11 || ''}
+              onChange={(e) => onChangeCabecera({ observacion_printer_11: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Calificación Printer 11..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_printer_11
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Printer 12 (No Cumple) */}
+        {cabecera.printer_12_calificacion === 'No Cumple' && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Calificación Printer 12 (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_printer_12 || ''}
+              onChange={(e) => onChangeCabecera({ observacion_printer_12: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Calificación Printer 12..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_printer_12
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Printer 31 (No Cumple) */}
+        {cabecera.printer_31_calificacion === 'No Cumple' && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Calificación Printer 31 (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_printer_31 || ''}
+              onChange={(e) => onChangeCabecera({ observacion_printer_31: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Calificación Printer 31..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_printer_31
+                  ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
+                  : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
+              }`}
+            />
+          </div>
+        )}
+
+        {/* Observaciones Printer 32 (No Cumple) */}
+        {cabecera.printer_32_calificacion === 'No Cumple' && (
+          <div className="mt-4 pt-4 border-t border-dashed border-slate-150">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1 flex items-center gap-1">
+              Observaciones Calificación Printer 32 (No Cumple) <span className="text-red-500 font-bold">* Requerido</span>
+            </label>
+            <input
+              type="text"
+              disabled={!editable}
+              value={cabecera.observacion_printer_32 || ''}
+              onChange={(e) => onChangeCabecera({ observacion_printer_32: e.target.value })}
+              placeholder="Detallar el motivo del no cumplimiento en Calificación Printer 32..."
+              className={`w-full bg-slate-50 disabled:bg-slate-100/60 disabled:text-slate-400 border rounded-lg p-2.5 text-sm transition-all outline-hidden ${
+                !cabecera.observacion_printer_32
                   ? 'border-red-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 bg-red-50/20'
                   : 'border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500'
               }`}

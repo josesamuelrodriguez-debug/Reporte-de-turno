@@ -97,6 +97,23 @@ export default function TabResumen({ reporte }: TabResumenProps) {
     text += `🎛️ *Equipos de Medición:* ${cabecera.hum_cumple !== false ? 'CUMPLE ✅' : 'NO CUMPLE ❌'}\n`;
     text += `📋 *PIE de Calidad:* ${cabecera.pie_calidad_cumple !== false ? 'CUMPLE ✅' : 'NO CUMPLE ❌'}\n`;
     text += `⚙️ *PIE de Operaciones:* ${cabecera.pie_operaciones_cumple !== false ? 'CUMPLE ✅' : 'NO CUMPLE ❌'}\n`;
+    text += `🔘 *Tensión de Fleje:* ${cabecera.tension_fleje_cumple !== false ? 'CUMPLE ✅' : 'NO CUMPLE ❌'}\n`;
+    text += `📹 *Video Inspector:* ${cabecera.video_inspector_cumple !== false ? 'CUMPLE ✅' : 'NO CUMPLE ❌'}\n`;
+    text += `💡 *Light Tester:* ${cabecera.light_tester_cumple !== false ? 'CUMPLE ✅' : 'NO CUMPLE ❌'}\n`;
+
+    // Printers
+    const p11 = cabecera.printer_11_calificacion || 'No Aplica';
+    const p12 = cabecera.printer_12_calificacion || 'No Aplica';
+    const p31 = cabecera.printer_31_calificacion || 'No Aplica';
+    const p32 = cabecera.printer_32_calificacion || 'No Aplica';
+    const formatPrinter = (val: string) => val === 'Cumple' ? 'CUMPLE ✅' : val === 'No Cumple' ? 'NO CUMPLE ❌' : 'NO APLICA ⚪';
+
+    text += `🖨️ *Calificación Printers:*\n`;
+    text += `  • *Printer 11:* ${formatPrinter(p11)}\n`;
+    text += `  • *Printer 12:* ${formatPrinter(p12)}\n`;
+    text += `  • *Printer 31:* ${formatPrinter(p31)}\n`;
+    text += `  • *Printer 32:* ${formatPrinter(p32)}\n`;
+
     if (cabecera.caida_tension) {
       text += `⚡ *Caídas de Tensión:* ${cabecera.caida_tension}\n`;
     }
@@ -108,6 +125,27 @@ export default function TabResumen({ reporte }: TabResumenProps) {
     }
     if (cabecera.pie_operaciones_cumple === false && cabecera.observacion_pie_operaciones) {
       text += `⚠️ *Obs. PIE Operaciones:* ${cabecera.observacion_pie_operaciones}\n`;
+    }
+    if (cabecera.tension_fleje_cumple === false && cabecera.observacion_tension_fleje) {
+      text += `⚠️ *Obs. Tensión de Fleje:* ${cabecera.observacion_tension_fleje}\n`;
+    }
+    if (cabecera.video_inspector_cumple === false && cabecera.observacion_video_inspector) {
+      text += `⚠️ *Obs. Video Inspector:* ${cabecera.observacion_video_inspector}\n`;
+    }
+    if (cabecera.light_tester_cumple === false && cabecera.observacion_light_tester) {
+      text += `⚠️ *Obs. Light Tester:* ${cabecera.observacion_light_tester}\n`;
+    }
+    if (p11 === 'No Cumple' && cabecera.observacion_printer_11) {
+      text += `⚠️ *Obs. Printer 11:* ${cabecera.observacion_printer_11}\n`;
+    }
+    if (p12 === 'No Cumple' && cabecera.observacion_printer_12) {
+      text += `⚠️ *Obs. Printer 12:* ${cabecera.observacion_printer_12}\n`;
+    }
+    if (p31 === 'No Cumple' && cabecera.observacion_printer_31) {
+      text += `⚠️ *Obs. Printer 31:* ${cabecera.observacion_printer_31}\n`;
+    }
+    if (p32 === 'No Cumple' && cabecera.observacion_printer_32) {
+      text += `⚠️ *Obs. Printer 32:* ${cabecera.observacion_printer_32}\n`;
     }
     text += `\n------------------------------------\n\n`;
 
@@ -429,11 +467,11 @@ export default function TabResumen({ reporte }: TabResumenProps) {
         </div>
 
         {/* METRICS & PARAMETERS CHECK */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">
           {/* Star Quality Status */}
-          <div className="bg-slate-50 border border-slate-150 px-3 py-2 rounded-xl flex items-center justify-between text-xs">
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
             <div>
-              <span className="block text-[10px] sm:text-xs font-bold text-slate-700 uppercase leading-none">Star Quality</span>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">Star Quality</span>
             </div>
             {cabecera.temp_cumple !== false ? (
               <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
@@ -447,9 +485,9 @@ export default function TabResumen({ reporte }: TabResumenProps) {
           </div>
 
           {/* Equipos de Medición */}
-          <div className="bg-slate-50 border border-slate-150 px-3 py-2 rounded-xl flex items-center justify-between text-xs">
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
             <div>
-              <span className="block text-[10px] sm:text-xs font-bold text-slate-700 uppercase leading-none">Equipos Medición</span>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">Equipos Med.</span>
             </div>
             {cabecera.hum_cumple !== false ? (
               <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
@@ -463,9 +501,9 @@ export default function TabResumen({ reporte }: TabResumenProps) {
           </div>
 
           {/* PIE de Calidad */}
-          <div className="bg-slate-50 border border-slate-150 px-3 py-2 rounded-xl flex items-center justify-between text-xs">
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
             <div>
-              <span className="block text-[10px] sm:text-xs font-bold text-slate-700 uppercase leading-none">PIE Calidad</span>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">PIE Calidad</span>
             </div>
             {cabecera.pie_calidad_cumple !== false ? (
               <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
@@ -479,9 +517,9 @@ export default function TabResumen({ reporte }: TabResumenProps) {
           </div>
 
           {/* PIE de Operaciones */}
-          <div className="bg-slate-50 border border-slate-150 px-3 py-2 rounded-xl flex items-center justify-between text-xs">
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
             <div>
-              <span className="block text-[10px] sm:text-xs font-bold text-slate-700 uppercase leading-none">PIE Operaciones</span>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">PIE Operac.</span>
             </div>
             {cabecera.pie_operaciones_cumple !== false ? (
               <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
@@ -494,12 +532,135 @@ export default function TabResumen({ reporte }: TabResumenProps) {
             )}
           </div>
 
+          {/* Tensión de Fleje */}
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">Tens. Fleje</span>
+            </div>
+            {cabecera.tension_fleje_cumple !== false ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
+                <CheckCircle className="w-3 h-3 text-emerald-600" /> CUMPLE
+              </span>
+            ) : (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-rose-200 animate-pulse shrink-0">
+                <XCircle className="w-3 h-3 text-rose-600" /> NO CUMPLE
+              </span>
+            )}
+          </div>
+
+          {/* Video Inspector */}
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">Video Insp.</span>
+            </div>
+            {cabecera.video_inspector_cumple !== false ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
+                <CheckCircle className="w-3 h-3 text-emerald-600" /> CUMPLE
+              </span>
+            ) : (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-rose-200 animate-pulse shrink-0">
+                <XCircle className="w-3 h-3 text-rose-600" /> NO CUMPLE
+              </span>
+            )}
+          </div>
+
+          {/* Light Tester */}
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl flex items-center justify-between text-xs">
+            <div>
+              <span className="block text-[10px] font-bold text-slate-700 uppercase leading-none">Light Tester</span>
+            </div>
+            {cabecera.light_tester_cumple !== false ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-emerald-200 shrink-0">
+                <CheckCircle className="w-3 h-3 text-emerald-600" /> CUMPLE
+              </span>
+            ) : (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[10px] font-black flex items-center gap-0.5 border border-rose-200 animate-pulse shrink-0">
+                <XCircle className="w-3 h-3 text-rose-600" /> NO CUMPLE
+              </span>
+            )}
+          </div>
+
           {/* Caídas de Tensión */}
-          <div className="bg-slate-50 border border-slate-150 px-3 py-2 rounded-xl text-xs flex flex-col justify-center">
+          <div className="bg-slate-50 border border-slate-150 px-2.5 py-2 rounded-xl text-xs flex flex-col justify-center">
             <span className="block text-[9px] font-bold text-slate-400 uppercase leading-none">Caídas Tensión</span>
-            <span className="text-[11px] font-extrabold text-slate-700 block truncate mt-1">
+            <span className="text-[10px] font-extrabold text-slate-700 block truncate mt-1">
               {cabecera.caida_tension || 'Sin caídas'}
             </span>
+          </div>
+        </div>
+
+        {/* PRINTERS CHECK ROW */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-50/70 p-2 rounded-xl border border-slate-200/60">
+          {/* Printer 11 */}
+          <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-150 flex items-center justify-between text-xs">
+            <span className="text-[10px] font-bold text-slate-600 uppercase">Printer 11</span>
+            {cabecera.printer_11_calificacion === 'Cumple' ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-emerald-200">
+                CUMPLE ✅
+              </span>
+            ) : cabecera.printer_11_calificacion === 'No Cumple' ? (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-rose-200 animate-pulse">
+                NO CUMPLE ❌
+              </span>
+            ) : (
+              <span className="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[9px] font-bold border border-slate-200">
+                N/A ⚪
+              </span>
+            )}
+          </div>
+
+          {/* Printer 12 */}
+          <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-150 flex items-center justify-between text-xs">
+            <span className="text-[10px] font-bold text-slate-600 uppercase">Printer 12</span>
+            {cabecera.printer_12_calificacion === 'Cumple' ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-emerald-200">
+                CUMPLE ✅
+              </span>
+            ) : cabecera.printer_12_calificacion === 'No Cumple' ? (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-rose-200 animate-pulse">
+                NO CUMPLE ❌
+              </span>
+            ) : (
+              <span className="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[9px] font-bold border border-slate-200">
+                N/A ⚪
+              </span>
+            )}
+          </div>
+
+          {/* Printer 31 */}
+          <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-150 flex items-center justify-between text-xs">
+            <span className="text-[10px] font-bold text-slate-600 uppercase">Printer 31</span>
+            {cabecera.printer_31_calificacion === 'Cumple' ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-emerald-200">
+                CUMPLE ✅
+              </span>
+            ) : cabecera.printer_31_calificacion === 'No Cumple' ? (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-rose-200 animate-pulse">
+                NO CUMPLE ❌
+              </span>
+            ) : (
+              <span className="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[9px] font-bold border border-slate-200">
+                N/A ⚪
+              </span>
+            )}
+          </div>
+
+          {/* Printer 32 */}
+          <div className="bg-white px-2.5 py-1.5 rounded-lg border border-slate-150 flex items-center justify-between text-xs">
+            <span className="text-[10px] font-bold text-slate-600 uppercase">Printer 32</span>
+            {cabecera.printer_32_calificacion === 'Cumple' ? (
+              <span className="bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-emerald-200">
+                CUMPLE ✅
+              </span>
+            ) : cabecera.printer_32_calificacion === 'No Cumple' ? (
+              <span className="bg-rose-50 text-rose-700 px-1.5 py-0.5 rounded text-[9px] font-black border border-rose-200 animate-pulse">
+                NO CUMPLE ❌
+              </span>
+            ) : (
+              <span className="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[9px] font-bold border border-slate-200">
+                N/A ⚪
+              </span>
+            )}
           </div>
         </div>
 
@@ -533,6 +694,69 @@ export default function TabResumen({ reporte }: TabResumenProps) {
                 Obs. PIE de Operaciones (No Cumple):
               </span>
               {cabecera.observacion_pie_operaciones}
+            </div>
+          )}
+
+          {cabecera.tension_fleje_cumple === false && cabecera.observacion_tension_fleje && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Tensión de Fleje (No Cumple):
+              </span>
+              {cabecera.observacion_tension_fleje}
+            </div>
+          )}
+
+          {cabecera.video_inspector_cumple === false && cabecera.observacion_video_inspector && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Video Inspector (No Cumple):
+              </span>
+              {cabecera.observacion_video_inspector}
+            </div>
+          )}
+
+          {cabecera.light_tester_cumple === false && cabecera.observacion_light_tester && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Light Tester (No Cumple):
+              </span>
+              {cabecera.observacion_light_tester}
+            </div>
+          )}
+
+          {cabecera.printer_11_calificacion === 'No Cumple' && cabecera.observacion_printer_11 && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Printer 11 (No Cumple):
+              </span>
+              {cabecera.observacion_printer_11}
+            </div>
+          )}
+
+          {cabecera.printer_12_calificacion === 'No Cumple' && cabecera.observacion_printer_12 && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Printer 12 (No Cumple):
+              </span>
+              {cabecera.observacion_printer_12}
+            </div>
+          )}
+
+          {cabecera.printer_31_calificacion === 'No Cumple' && cabecera.observacion_printer_31 && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Printer 31 (No Cumple):
+              </span>
+              {cabecera.observacion_printer_31}
+            </div>
+          )}
+
+          {cabecera.printer_32_calificacion === 'No Cumple' && cabecera.observacion_printer_32 && (
+            <div className="border px-3 py-1.5 rounded-lg text-[10px] leading-relaxed bg-rose-50/40 border-rose-100 text-rose-900">
+              <span className="font-extrabold uppercase text-[9px] tracking-wider mr-1">
+                Obs. Printer 32 (No Cumple):
+              </span>
+              {cabecera.observacion_printer_32}
             </div>
           )}
         </div>
