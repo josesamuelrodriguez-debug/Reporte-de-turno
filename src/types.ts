@@ -180,6 +180,8 @@ export interface Reproceso {
   creado_el: string;
   fecha_registro?: string;
   turno_registro?: number;
+  fecha_liberacion?: string;
+  turno_liberacion?: number;
   calidad?: 'Cumple' | 'No Cumple';
   observaciones?: string;
 }

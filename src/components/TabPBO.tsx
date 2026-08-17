@@ -860,6 +860,8 @@ export default function TabPBO({
         creado_el: new Date().toISOString(),
         fecha_registro: cabeceraFecha,
         turno_registro: cabeceraTurno,
+        fecha_liberacion: reproForm.check_liberado ? (cabeceraFecha || new Date().toISOString().slice(0, 10)) : undefined,
+        turno_liberacion: reproForm.check_liberado ? cabeceraTurno : undefined,
         calidad: reproForm.calidad,
         observaciones: reproForm.observaciones
       };
@@ -907,6 +909,17 @@ export default function TabPBO({
       [field]: newValue
     };
 
+    // Si se activa check_liberado, guardamos la fecha y turno del turno actual
+    if (field === 'check_liberado') {
+      if (newValue) {
+        updatedRepro.fecha_liberacion = cabeceraFecha || new Date().toISOString().slice(0, 10);
+        updatedRepro.turno_liberacion = cabeceraTurno;
+      } else {
+        updatedRepro.fecha_liberacion = undefined;
+        updatedRepro.turno_liberacion = undefined;
+      }
+    }
+
     try {
       await saveReprocesoPBO(updatedRepro);
       setReprocesos(prev => prev.map(r => r.id === repro.id ? updatedRepro : r));
@@ -924,7 +937,16 @@ export default function TabPBO({
       return;
     }
     try {
-      await saveReprocesoPBO(editingRepro);
+      const reproToSave: Reproceso = {
+        ...editingRepro,
+        fecha_liberacion: editingRepro.check_liberado 
+          ? (editingRepro.fecha_liberacion || cabeceraFecha || new Date().toISOString().slice(0, 10))
+          : undefined,
+        turno_liberacion: editingRepro.check_liberado 
+          ? (editingRepro.turno_liberacion || cabeceraTurno)
+          : undefined
+      };
+      await saveReprocesoPBO(reproToSave);
       setEditingRepro(null);
       setRefreshTrigger(p => p + 1);
       alert("Reproceso actualizado con éxito.");

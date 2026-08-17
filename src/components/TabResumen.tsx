@@ -61,9 +61,12 @@ export default function TabResumen({ reporte }: TabResumenProps) {
     l => l.fecha_registro === cabecera.fecha && l.turno_registro === cabecera.turno
   );
 
-  const matchingReprocesos = pboReprocesos.filter(
-    r => r.fecha_registro === cabecera.fecha && r.turno_registro === cabecera.turno
-  );
+  // Reprocesos registrados o liberados en este turno
+  const matchingReprocesos = pboReprocesos.filter(r => {
+    const isRegistradoEnTurno = r.fecha_registro === cabecera.fecha && r.turno_registro === cabecera.turno;
+    const isLiberadoEnTurno = !!r.check_liberado && r.fecha_liberacion === cabecera.fecha && r.turno_liberacion === cabecera.turno;
+    return isRegistradoEnTurno || isLiberadoEnTurno;
+  });
 
   const handleDownloadPDF = () => {
     window.print();
